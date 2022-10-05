@@ -1,4 +1,5 @@
 import cv2
+import winsound
 
 # start video capture
 camera = cv2.VideoCapture(0)
@@ -27,12 +28,28 @@ while camera.isOpened():
     # find possible contours
     contours, _ = cv2.findContours(dilated, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-    # to see/draw the contours as output
-    cv2.drawContours(frame1, contours, -1, (0,255,255), 2)
+    # to see/draw the all possible contours as output
+    # cv2.drawContours(frame1, contours, -1, (255,0,0), 2)
+
+    # to draw select contours
+    for contourSize in contours:
+        # ignore smaller area contours and focus on larger movements
+        if cv2.contourArea(contourSize) < 10000:
+            continue
+        # get coordinates of rectangle around the detected motion
+        xAxis, yAxis, width, height = cv2.boundingRect(contourSize)
+        # draw the rectangle based on coordinates from previous step
+        cv2.rectangle(frame1, (xAxis, yAxis), (xAxis+width, yAxis+height), (0,0,255), 2)
+        # default sound (frequency, duration_ms)
+        winsound.Beep(500, 200)
+        # external source file
+        # ASYNC - sound plays
+        # winsound.PlaySound('alert.wav', winsound.SND_ASYNC)
 
     # check if user presses the proper key to quit, ord fetches unicode value of the parameter passed
     if cv2.waitKey(10) == ord('q'):
         break
+
     # display 
     # cv2.imshow('Camera Feed', frame)
     # cv2.imshow('Camera Feed', frameDifference)
