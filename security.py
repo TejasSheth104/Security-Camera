@@ -52,13 +52,14 @@ while camera.isOpened():
 
     # display 
     # cv2.imshow('Camera Feed', frame)
+    # cv2.imshow('Camera Feed', frame1)
+    # cv2.imshow('Camera Feed', frame2)
     # cv2.imshow('Camera Feed', frameDifference)
     # cv2.imshow('Camera Feed', grayImg)
     # cv2.imshow('Camera Feed', blurImg)
     # cv2.imshow('Camera Feed', thresh)
     # cv2.imshow('Camera Feed', dilated)
     cv2.imshow('Camera Feed', frame1)
-
 
 
     
