@@ -1,14 +1,16 @@
 import cv2
 import winsound
 
+# 
+font = cv2.FONT_HERSHEY_SIMPLEX
 # start video capture
 camera = cv2.VideoCapture(0)
 # check if cv2 has started the camera or not
 while camera.isOpened():
     # detects the camera 
     # ret, frame = camera.read()
-    ret, frame1 = camera.read()
-    ret, frame2 = camera.read()
+    ret, frame1 = camera.read() # prev postion
+    ret, frame2 = camera.read() # current position
 
     # difference between 2 frames to detect motion
     frameDifference = cv2.absdiff(frame1, frame2)
@@ -37,28 +39,23 @@ while camera.isOpened():
         if cv2.contourArea(contourSize) < 10000:
             continue
         # get coordinates of rectangle around the detected motion
-        xAxis, yAxis, width, height = cv2.boundingRect(contourSize)
+        xCoord, yCoord, width, height = cv2.boundingRect(contourSize)
         # draw the rectangle based on coordinates from previous step
-        cv2.rectangle(frame1, (xAxis, yAxis), (xAxis+width, yAxis+height), (0,0,255), 2)
+        cv2.rectangle(frame1, (xCoord, yCoord), (xCoord+width, yCoord+height), (0,0,255), 2)
+        # cv2.putText(image, text, org, font, fontScale, color[, thickness[, lineType[, bottomLeftOrigin]]])
+        cv2.putText(frame1, "Motion Detected", (200, 45), font, 1, (0, 0, 255), 2)
+
         # default sound (frequency, duration_ms)
-        winsound.Beep(500, 200)
+        # winsound.Beep(500, 200)
         # external source file
         # ASYNC - sound plays
-        # winsound.PlaySound('alert.wav', winsound.SND_ASYNC)
+        winsound.PlaySound('alert.wav', winsound.SND_ASYNC)
 
     # check if user presses the proper key to quit, ord fetches unicode value of the parameter passed
     if cv2.waitKey(10) == ord('q'):
         break
 
     # display 
-    # cv2.imshow('Camera Feed', frame)
-    # cv2.imshow('Camera Feed', frame1)
-    # cv2.imshow('Camera Feed', frame2)
-    # cv2.imshow('Camera Feed', frameDifference)
-    # cv2.imshow('Camera Feed', grayImg)
-    # cv2.imshow('Camera Feed', blurImg)
-    # cv2.imshow('Camera Feed', thresh)
-    # cv2.imshow('Camera Feed', dilated)
     cv2.imshow('Camera Feed', frame1)
 
 
