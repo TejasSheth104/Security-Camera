@@ -46,10 +46,10 @@ while camera.isOpened():
         cv2.putText(frame1, "Motion Detected", (200, 45), font, 1, (0, 0, 255), 2)
 
         # default sound (frequency, duration_ms)
-        # winsound.Beep(500, 200)
+        winsound.Beep(500, 200)
         # external source file
         # ASYNC - sound plays
-        winsound.PlaySound('alert.wav', winsound.SND_ASYNC)
+        # winsound.PlaySound('alert.wav', winsound.SND_ASYNC)
 
     # check if user presses the proper key to quit, ord fetches unicode value of the parameter passed
     if cv2.waitKey(10) == ord('q'):
